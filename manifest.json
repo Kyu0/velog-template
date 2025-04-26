@@ -3,6 +3,7 @@
   "description": "Make post template, and use it eaily.",
   "version": "0.1",
   "manifest_version": 3,
+  "permissions": ["storage"],
   "content_scripts": [
     { "js": ["content.js"], "matches": ["https://velog.io/write*"] }
   ]
