@@ -25,6 +25,7 @@ module.exports = {
       },
     ],
   },
+  devtool: false,
   plugins: [
     // CleanWebpackPlugin with --watch option repeats the build.
     !isDev && new CleanWebpackPlugin(),
