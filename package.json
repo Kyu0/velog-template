@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "build": "webpack --config webpack/webpack.config.cjs",
+    "build": "NODE_ENV=production webpack --config webpack/webpack.config.cjs",
+    "build:dev": "NODE_ENV=development webpack --config webpack/webpack.config.cjs --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

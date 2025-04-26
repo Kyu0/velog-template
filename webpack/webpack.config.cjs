@@ -2,8 +2,10 @@ const { resolve: _resolve, join } = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 module.exports = {
-  mode: 'production',
+  mode: isDev ? 'development' : 'production',
   entry: {
     content: _resolve(__dirname, '..', 'src', 'content.ts'),
   },
@@ -24,7 +26,8 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
+    // CleanWebpackPlugin with --watch option repeats the build.
+    !isDev && new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
         { from: '.', to: '.', context: 'public', noErrorOnMissing: true },
