@@ -1,21 +1,27 @@
-function createTemplateButton() {
-  const span = document.createElement('span');
-  span.innerText = '템플릿';
+import { CustomHTMLCreator, Parser } from './html';
 
-  const saveButton = document.createElement('button');
-  saveButton.appendChild(span);
+const parser = new Parser();
+const creator = new CustomHTMLCreator();
 
-  return saveButton;
-}
+// function createLoadTemplateButton() {
+//   const span = document.createElement('span');
+//   span.innerText = '템플릿 불러오기';
 
-function returnExitButton() {
-  const buttons = document.querySelectorAll('button');
-  const exitButton = Array.from(buttons).find(
-    (btn) => btn.textContent?.trim() === '나가기'
-  );
+//   const loadButton = document.createElement('button');
+//   loadButton.appendChild(span);
 
-  return exitButton;
-}
+//   return loadButton;
+// }
+
+// function createSaveTemplateButton() {
+//   const span = document.createElement('span');
+//   span.innerText = '템플릿 저장하기';
+
+//   const saveButton = document.createElement('button');
+//   saveButton.appendChild(span);
+
+//   return saveButton;
+// }
 
 function copyClassList(from: HTMLElement, to: HTMLElement): void {
   const classList = from.classList;
@@ -26,18 +32,40 @@ function copyClassList(from: HTMLElement, to: HTMLElement): void {
   }
 }
 
-function appendSaveButton() {
-  const templateButton = createTemplateButton();
-  const exitButton = returnExitButton();
+function appendLoadButton() {
+  const loadButton = creator.createButton({
+    content: '템플릿 불러오기',
+    position: 'left',
+  });
+  const exitButton = parser.exitButton;
 
   if (!exitButton) {
     return;
   }
 
-  copyClassList(exitButton, templateButton);
-  templateButton.style.marginRight = 'auto';
+  copyClassList(exitButton, loadButton);
 
-  exitButton?.parentNode?.insertBefore(templateButton, exitButton.nextSibling);
+  exitButton?.parentNode?.insertBefore(loadButton, exitButton.nextSibling);
 }
 
+function appendSaveButton() {
+  const saveButton = creator.createButton({
+    content: '템플릿 저장하기',
+    position: 'left',
+  });
+  const publishButton = parser.publishButton;
+
+  if (!publishButton) {
+    return;
+  }
+
+  copyClassList(publishButton, saveButton);
+
+  publishButton?.parentNode?.insertBefore(
+    saveButton,
+    publishButton.nextSibling
+  );
+}
+
+appendLoadButton();
 appendSaveButton();
