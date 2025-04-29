@@ -1,3 +1,9 @@
+/**
+ * '작성하기' 페이지에 존재하는 HTML 태그를 추출하여 제공하는 클래스입니다.
+ *
+ *  - exitButton: 나가기 버튼
+ *  - publishButton: 출간하기 버튼
+ */
 export class Parser {
   private readonly _exitButton;
   private readonly _publishButton;
