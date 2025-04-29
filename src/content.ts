@@ -1,18 +1,14 @@
 import { copyClassList, CustomHTMLCreator, Parser } from './html';
 
-const parser = new Parser();
-const creator = new CustomHTMLCreator();
+const PARSER = new Parser();
+const CREATOR = new CustomHTMLCreator();
 
 function appendLoadButton() {
-  const loadButton = creator.createButton({
+  const loadButton = CREATOR.createButton({
     content: '템플릿 불러오기',
     position: 'right',
   });
-  const exitButton = parser.exitButton;
-
-  if (!exitButton) {
-    return;
-  }
+  const exitButton = PARSER.exitButton;
 
   copyClassList(exitButton, loadButton);
 
@@ -20,20 +16,18 @@ function appendLoadButton() {
 }
 
 function appendSaveButton() {
-  const saveButton = creator.createButton({
+  const saveButton = CREATOR.createButton({
     content: '템플릿 저장하기',
     position: 'left',
   });
-  const [exitButton, publishButton] = [parser.exitButton, parser.publishButton];
-
-  if (!publishButton) {
-    return;
-  }
+  const [exitButton, publishButton] = [PARSER.exitButton, PARSER.publishButton];
 
   copyClassList(publishButton, saveButton);
 
   exitButton?.parentNode?.insertBefore(saveButton, exitButton.nextSibling);
 }
 
-appendSaveButton();
-appendLoadButton();
+if (PARSER.isContinuable) {
+  appendSaveButton();
+  appendLoadButton();
+}

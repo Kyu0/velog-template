@@ -1,4 +1,11 @@
-export function copyClassList(from: HTMLElement, to: HTMLElement): void {
+export function copyClassList(
+  from: HTMLElement | undefined,
+  to: HTMLElement
+): void {
+  if (from == null) {
+    return;
+  }
+
   const classList = from.classList;
   to.className = '';
 
