@@ -9,6 +9,18 @@ function appendLoadButton() {
     position: 'right',
   });
   const exitButton = PARSER.exitButton;
+  loadButton?.addEventListener('click', async () => {
+    chrome.storage.local.get(
+      'velog_template',
+      (result: { ['velog_template']: string }) => {
+        if (PARSER.contentSpan == null) return;
+        if (result.velog_template == null) return;
+
+        // TODO: content update 방식 변경
+        PARSER.contentSpan.innerText = result.velog_template;
+      }
+    );
+  });
 
   copyClassList(exitButton, loadButton);
 
@@ -21,6 +33,11 @@ function appendSaveButton() {
     position: 'left',
   });
   const [exitButton, publishButton] = [PARSER.exitButton, PARSER.publishButton];
+  saveButton?.addEventListener('click', () => {
+    chrome.storage.local.set({ velog_template: PARSER.writingContent }, () => {
+      alert('템플릿이 저장되었습니다.');
+    });
+  });
 
   copyClassList(publishButton, saveButton);
 
