@@ -13,11 +13,9 @@ function appendLoadButton() {
     chrome.storage.local.get(
       'velog_template',
       (result: { ['velog_template']: string }) => {
-        if (PARSER.contentSpan == null) return;
         if (result.velog_template == null) return;
 
-        // TODO: content update 방식 변경
-        PARSER.contentSpan.innerText = result.velog_template;
+        PARSER.changeContent(result.velog_template);
       }
     );
   });

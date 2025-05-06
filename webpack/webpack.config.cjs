@@ -32,6 +32,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: '.', to: '.', context: 'public', noErrorOnMissing: true },
+        { from: 'src/js/*', to: '[name][ext]' },
         { from: 'manifest.json', to: 'manifest.json' },
       ],
     }),
