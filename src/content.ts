@@ -3,6 +3,9 @@ import { copyClassList, CustomHTMLCreator, Parser } from './html';
 const PARSER = new Parser();
 const CREATOR = new CustomHTMLCreator();
 
+/**
+ * 템플릿을 불러오는 버튼을 추가합니다.
+ */
 function appendLoadButton() {
   const loadButton = CREATOR.createButton({
     content: '템플릿 불러오기',
@@ -25,6 +28,9 @@ function appendLoadButton() {
   exitButton?.parentNode?.insertBefore(loadButton, exitButton.nextSibling);
 }
 
+/**
+ * 템플릿을 저장하는 버튼을 추가합니다.
+ */
 function appendSaveButton() {
   const saveButton = CREATOR.createButton({
     content: '템플릿 저장하기',
