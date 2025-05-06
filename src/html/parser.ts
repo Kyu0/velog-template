@@ -31,6 +31,11 @@ export class Parser {
       (span) => span.role === Parser.CONTENT_SPAN_ROLE
     );
 
+    const script = document.createElement('script');
+    script.src = chrome.runtime.getURL('injected.js');
+    script.onload = () => script.remove();
+    (document.head || document.documentElement).appendChild(script);
+
     if (
       this._exitButton != null &&
       this._publishButton != null &&
@@ -62,5 +67,9 @@ export class Parser {
 
   get isContinuable(): boolean {
     return this._isContinuable;
+  }
+
+  public changeContent(content: string): void {
+    window.postMessage({ type: 'VELOG_SET_CONTENT', content }, '*');
   }
 }

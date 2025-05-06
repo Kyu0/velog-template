@@ -4,6 +4,12 @@
   "version": "0.1",
   "manifest_version": 3,
   "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": ["injected.js"],
+      "matches": ["https://velog.io/*"]
+    }
+  ],
   "content_scripts": [
     { "js": ["content.js"], "matches": ["https://velog.io/write*"] }
   ]
