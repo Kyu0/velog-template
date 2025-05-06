@@ -31,6 +31,7 @@ export class Parser {
       (span) => span.role === Parser.CONTENT_SPAN_ROLE
     );
 
+    // CodeMirror의 내용을 변경하는 이벤트 리스너를 추가하는 스크립트를 삽입합니다.
     const script = document.createElement('script');
     script.src = chrome.runtime.getURL('injected.js');
     script.onload = () => script.remove();
@@ -69,6 +70,11 @@ export class Parser {
     return this._isContinuable;
   }
 
+  /**
+   * 포스트의 내용을 주어진 문자열로 변경합니다.
+   * CodeMirror 에디터를 크롬 익스텐션에서 참조할 수 없어 window.postMessage를 사용하여 내용을 변경합니다.
+   * @param content 변경할 문자열
+   */
   public changeContent(content: string): void {
     window.postMessage({ type: 'VELOG_SET_CONTENT', content }, '*');
   }
