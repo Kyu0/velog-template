@@ -38,6 +38,7 @@ function appendSaveButton() {
   });
   const [exitButton, publishButton] = [PARSER.exitButton, PARSER.publishButton];
   saveButton?.addEventListener('click', () => {
+    console.log(PARSER.writingContent);
     chrome.storage.local.set({ velog_template: PARSER.writingContent }, () => {
       alert('템플릿이 저장되었습니다.');
     });

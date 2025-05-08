@@ -3,12 +3,10 @@
  *
  *  - exitButton: 나가기 버튼
  *  - publishButton: 출간하기 버튼
- *  - contentSpan: 작성 중인 포스트 내용
  */
 export class Parser {
   private readonly _exitButton;
   private readonly _publishButton;
-  private readonly _contentSpan;
   private _isContinuable = false;
 
   private static readonly EXIT_BUTTON_TEXT = '나가기';
@@ -17,7 +15,6 @@ export class Parser {
 
   constructor() {
     const buttons = Array.from(document.querySelectorAll('button'));
-    const spans = Array.from(document.querySelectorAll('span'));
 
     this._exitButton = buttons.find(
       (button) => button.innerText === Parser.EXIT_BUTTON_TEXT
@@ -27,21 +24,13 @@ export class Parser {
       (button) => button.innerText === Parser.PUBLISH_BUTTON_TEXT
     );
 
-    this._contentSpan = spans.find(
-      (span) => span.role === Parser.CONTENT_SPAN_ROLE
-    );
-
     // CodeMirror의 내용을 변경하는 이벤트 리스너를 추가하는 스크립트를 삽입합니다.
     const script = document.createElement('script');
     script.src = chrome.runtime.getURL('injected.js');
     script.onload = () => script.remove();
     (document.head || document.documentElement).appendChild(script);
 
-    if (
-      this._exitButton != null &&
-      this._publishButton != null &&
-      this._contentSpan != null
-    ) {
+    if (this._exitButton != null && this._publishButton != null) {
       this._isContinuable = true;
     }
   }
@@ -54,16 +43,13 @@ export class Parser {
     return this._publishButton;
   }
 
-  get contentSpan(): HTMLSpanElement | undefined {
-    return this._contentSpan;
-  }
-
   get writingContent(): string | undefined {
-    const contentSpan = Array.from(document.querySelectorAll('span')).find(
-      (span) => span.role === Parser.CONTENT_SPAN_ROLE
-    );
+    const content = Array.from(document.querySelectorAll('span'))
+      .filter((span) => span.role === Parser.CONTENT_SPAN_ROLE)
+      .map((span) => span.innerText)
+      .join('\n');
 
-    return contentSpan?.innerText;
+    return content;
   }
 
   get isContinuable(): boolean {
