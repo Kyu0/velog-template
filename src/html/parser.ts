@@ -5,42 +5,28 @@
  *  - publishButton: 출간하기 버튼
  */
 export class Parser {
-  private readonly _exitButton;
-  private readonly _publishButton;
-  private _isContinuable = false;
-
   private static readonly EXIT_BUTTON_TEXT = '나가기';
   private static readonly PUBLISH_BUTTON_TEXT = '출간하기';
   private static readonly CONTENT_SPAN_ROLE = 'presentation';
 
   constructor() {
-    const buttons = Array.from(document.querySelectorAll('button'));
-
-    this._exitButton = buttons.find(
-      (button) => button.innerText === Parser.EXIT_BUTTON_TEXT
-    );
-
-    this._publishButton = buttons.find(
-      (button) => button.innerText === Parser.PUBLISH_BUTTON_TEXT
-    );
-
     // CodeMirror의 내용을 변경하는 이벤트 리스너를 추가하는 스크립트를 삽입합니다.
     const script = document.createElement('script');
     script.src = chrome.runtime.getURL('injected.js');
     script.onload = () => script.remove();
     (document.head || document.documentElement).appendChild(script);
-
-    if (this._exitButton != null && this._publishButton != null) {
-      this._isContinuable = true;
-    }
   }
 
   get exitButton(): HTMLButtonElement | undefined {
-    return this._exitButton;
+    return Array.from(document.querySelectorAll('button')).find(
+      (button) => button.innerText === Parser.EXIT_BUTTON_TEXT
+    );
   }
 
   get publishButton(): HTMLButtonElement | undefined {
-    return this._publishButton;
+    return Array.from(document.querySelectorAll('button')).find(
+      (button) => button.innerText === Parser.PUBLISH_BUTTON_TEXT
+    );
   }
 
   get writingContent(): string | undefined {
@@ -53,7 +39,7 @@ export class Parser {
   }
 
   get isContinuable(): boolean {
-    return this._isContinuable;
+    return this.exitButton != null && this.publishButton != null;
   }
 
   /**
